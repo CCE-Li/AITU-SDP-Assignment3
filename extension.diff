@@ -1,0 +1,59 @@
+diff --git a/src/AsciiRenderer.java b/src/AsciiRenderer.java
+new file mode 100644
+index 0000000..70347e8
+--- /dev/null
++++ b/src/AsciiRenderer.java
+@@ -0,0 +1,11 @@
++/**
++ * I3：ASCII 字符渲染器（扩展阶段新增）。
++ * 只新增本类，抽象层、接口、I1 与 I2 均未修改。
++ */
++public class AsciiRenderer implements Renderer {
++
++    @Override
++    public String render(String description) {
++        return "ASCII " + description;
++    }
++}
+diff --git a/src/Main.java b/src/Main.java
+index 28fad49..a9fab04 100644
+--- a/src/Main.java
++++ b/src/Main.java
+@@ -1,5 +1,5 @@
+ /**
+- * 客户端与演示入口（基础版本）：运行 T1-T5 检查，无交互输入。
++ * 客户端与演示入口：运行 T1-T7 全部检查，无交互输入。
+  * 运行方式：java -cp out Main --demo
+  */
+ public class Main {
+@@ -18,10 +18,11 @@ public class Main {
+         }
+     }
+ 
+-    /** 依次执行 T1-T5，并输出根据实际结果计算出的汇总。 */
++    /** 依次执行 T1-T7，并输出根据实际结果计算出的汇总。 */
+     private static void runDemo() {
+         runMatrixChecks();
+         runRuntimeSwitchCheck();
++        runExtensionChecks();
+         System.out.println("SUMMARY: " + passed + "/" + total + (passed == total ? " PASS" : " FAIL"));
+     }
+ 
+@@ -70,6 +71,17 @@ public class Main {
+                 + (pass ? "" : " | expectedBefore=VECTOR circle radius=2 | expectedAfter=RASTER circle radius=2"));
+     }
+ 
++    /** T6-T7：扩展阶段新增的 I3（ASCII 渲染器）与两种抽象的组合。 */
++    private static void runExtensionChecks() {
++        Circle circleWithAscii = new Circle("A1", 2, new AsciiRenderer());
++        verify("T6", "Circle + AsciiRenderer", circleWithAscii.getId().equals("A1") && circleWithAscii.getRadius() == 2,
++                circleWithAscii.execute(), "ASCII circle radius=2");
++
++        Square squareWithAscii = new Square("A2", 3, new AsciiRenderer());
++        verify("T7", "Square + AsciiRenderer", squareWithAscii.getId().equals("A2") && squareWithAscii.getSide() == 3,
++                squareWithAscii.execute(), "ASCII square side=3");
++    }
++
+     /** 通用校验：由预期字符串 (expected) 与领域数据 (domainOk) 共同计算 PASS/FAIL。 */
+     private static void verify(String testId, String participants, boolean domainOk, String actual, String expected) {
+         total++;

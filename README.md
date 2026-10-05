@@ -3,7 +3,8 @@
 **Student:** 李易鑫 (Yixin Li)  
 **Group:** SE-2526  
 **Topic:** A — Drawing/Shapes (abstraction: shapes; implementor: renderers)  
-**Repository:** https://github.com/CCE-Li/AITU-SDP-Assignment3
+**Repository:** https://github.com/CCE-Li/AITU-SDP-Assignment3  
+**Base commit (I1/I2 version):** 5dae42bf5297e12ebb6cd27da719863c718033e5
 
 ## Role map
 
@@ -15,6 +16,7 @@
 | Implementor (interface) | `Renderer` | `src/Renderer.java` |
 | I1 | `VectorRenderer` | `src/VectorRenderer.java` |
 | I2 | `RasterRenderer` | `src/RasterRenderer.java` |
+| I3 (extension) | `AsciiRenderer` | `src/AsciiRenderer.java` |
 | Client | `Main` | `src/Main.java` |
 
 Where to look:
@@ -39,5 +41,11 @@ T2 PASS | Circle + RasterRenderer | result=RASTER circle radius=2
 T3 PASS | Square + VectorRenderer | result=VECTOR square side=3
 T4 PASS | Square + RasterRenderer | result=RASTER square side=3
 T5 PASS | sameObject=true | stateUnchanged=true | before=VECTOR circle radius=2 | after=RASTER circle radius=2
-SUMMARY: 5/5 PASS
+T6 PASS | Circle + AsciiRenderer | result=ASCII circle radius=2
+T7 PASS | Square + AsciiRenderer | result=ASCII square side=3
+SUMMARY: 7/7 PASS
 ```
+
+## Extension (I3)
+
+`AsciiRenderer` (I3) was added as a new class that implements `Renderer`; only `Main` (T6/T7 checks), `sources.txt` and this documentation changed. The abstraction classes, the `Renderer` interface, `VectorRenderer` and `RasterRenderer` are untouched — see `extension.diff` for the exact source diff from the base commit.

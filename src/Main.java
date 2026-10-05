@@ -1,5 +1,5 @@
 /**
- * 客户端与演示入口（基础版本）：运行 T1-T5 检查，无交互输入。
+ * 客户端与演示入口：运行 T1-T7 全部检查，无交互输入。
  * 运行方式：java -cp out Main --demo
  */
 public class Main {
@@ -18,10 +18,11 @@ public class Main {
         }
     }
 
-    /** 依次执行 T1-T5，并输出根据实际结果计算出的汇总。 */
+    /** 依次执行 T1-T7，并输出根据实际结果计算出的汇总。 */
     private static void runDemo() {
         runMatrixChecks();
         runRuntimeSwitchCheck();
+        runExtensionChecks();
         System.out.println("SUMMARY: " + passed + "/" + total + (passed == total ? " PASS" : " FAIL"));
     }
 
@@ -68,6 +69,17 @@ public class Main {
                 + " | before=" + before
                 + " | after=" + after
                 + (pass ? "" : " | expectedBefore=VECTOR circle radius=2 | expectedAfter=RASTER circle radius=2"));
+    }
+
+    /** T6-T7：扩展阶段新增的 I3（ASCII 渲染器）与两种抽象的组合。 */
+    private static void runExtensionChecks() {
+        Circle circleWithAscii = new Circle("A1", 2, new AsciiRenderer());
+        verify("T6", "Circle + AsciiRenderer", circleWithAscii.getId().equals("A1") && circleWithAscii.getRadius() == 2,
+                circleWithAscii.execute(), "ASCII circle radius=2");
+
+        Square squareWithAscii = new Square("A2", 3, new AsciiRenderer());
+        verify("T7", "Square + AsciiRenderer", squareWithAscii.getId().equals("A2") && squareWithAscii.getSide() == 3,
+                squareWithAscii.execute(), "ASCII square side=3");
     }
 
     /** 通用校验：由预期字符串 (expected) 与领域数据 (domainOk) 共同计算 PASS/FAIL。 */
